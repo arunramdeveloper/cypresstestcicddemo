@@ -74,6 +74,6 @@ jobs:
           password: ${{ secrets.GMAIL_PASSWORD }}
           subject: "MyPC Cloud server e2e test report - Run #${{ github.run_id }}"
           from: ${{ secrets.GMAIL_USERNAME }}
-          to: ${{ secrets.GMAIL_RECIPIENT }}
+          to: ${{ secrets.GMAIL_RECIPIENTS }}
           body: "Hi, this is an automated MyPC Cloud server e2e test report."
           attachments: cypress/reports/index.html
