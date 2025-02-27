@@ -32,13 +32,16 @@ jobs:
         run: mkdir -p cypress/reports
 
       - name: Run Cypress Tests
-        run: npx cypress run --reporter mochawesome
+        run: npx cypress run --reporter cypress-mochawesome-reporter --reporter-options reportDir=cypress/reports,json=true
+
+      - name: Check Cypress Reports
+        run: ls -R cypress/reports || echo "No reports found!"
 
       - name: Upload Cypress Report
         uses: actions/upload-artifact@v4
         with:
           name: cypress-test-report
-          path: cypress/reports/index.html
+          path: cypress/reports/
 
       - name: Debug Email Configuration
         run: |
