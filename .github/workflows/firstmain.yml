@@ -1,0 +1,79 @@
+name: MyPC Cloud server E2E Tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  schedule:
+    - cron: "*0 * * * *"
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Create Reports Directory
+        run: mkdir -p cypress/reports
+
+      - name: Run Cypress Tests
+        run: npx cypress run --reporter cypress-mochawesome-reporter --reporter-options reportDir=cypress/reports,json=true
+
+      - name: Check Cypress Reports
+        run: ls -R cypress/reports || echo "No reports found!"
+
+      - name: Upload Cypress Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-test-report
+          path: cypress/reports/
+
+      - name: Debug Email Configuration
+        run: |
+          echo "✅ Checking Email Configuration..."
+          if [ -z "${{ secrets.GMAIL_USERNAME }}" ]; then
+            echo "❌ GMAIL_USERNAME is NOT set!"
+          else
+            echo "✅ GMAIL_USERNAME is set!"
+          fi
+
+          if [ -z "${{ secrets.GMAIL_RECIPIENT }}" ]; then
+            echo "❌ GMAIL_RECIPIENT is NOT set!"
+          else
+            echo "✅ GMAIL_RECIPIENT is set!"
+          fi
+
+          if [ -z "${{ secrets.GMAIL_PASSWORD }}" ]; then
+            echo "❌ GMAIL_PASSWORD is NOT set!"
+          else
+            echo "✅ GMAIL_PASSWORD is set!"
+          fi
+
+      - name: Send Email with Report
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          secure: false
+          username: ${{ secrets.GMAIL_USERNAME }}
+          password: ${{ secrets.GMAIL_PASSWORD }}
+          subject: "MyPC Cloud server e2e test report - Run #${{ github.run_id }}"
+          from: ${{ secrets.GMAIL_USERNAME }}
+          to: ${{ secrets.GMAIL_RECIPIENT }}
+          body: "Hi, this is an automated MyPC Cloud server e2e test report."
+          attachments: cypress/reports/index.html
