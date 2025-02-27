@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "cypress run && node customize_report.js",   
-    "report:pdf": "node generate_pdf.js",
-    "test:report": "cypress run && node generate_pdf.js"
-  },
+ "scripts": {
+  "test": "cypress run --reporter cypress-mochawesome-reporter --reporter-options reportDir=cypress/reports,json=true && node customize_report.js",
+  "report:pdf": "node generate_pdf.js",
+  "test:report": "cypress run --reporter cypress-mochawesome-reporter --reporter-options reportDir=cypress/reports,json=true && node generate_pdf.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
