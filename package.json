@@ -1,0 +1,23 @@
+{
+  "name": "mypccloudserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run && node customize_report.js",   
+    "report:pdf": "node generate_pdf.js",
+    "test:report": "cypress run && node generate_pdf.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^14.0.3",
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "cypress-xpath": "^2.0.1",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^5.0.0",
+    "mochawesome-report-generator": "^6.2.0",
+    "puppeteer": "^24.3.0"
+  }
+}

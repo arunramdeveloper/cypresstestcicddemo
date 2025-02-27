@@ -1,0 +1,14 @@
+.report-title {
+    display: flex;
+    align-items: center;
+}
+.report-title:before {
+    content: "";
+    background-image: url('https://rezzqa2.its-cs.com/assets/myPC-logo.svg'); /* Replace with actual logo URL */
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 80px; /* Adjust width */
+    height: 80px; /* Adjust height */
+    display: inline-block;
+    margin-right: 15px;
+}
